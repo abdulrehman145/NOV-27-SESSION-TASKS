@@ -33,6 +33,14 @@ IQR=Q3-Q1
 lower_bound=(Q1-1.5)*IQR
 upper_bound=(Q3+1.5)*IQR
 
-outliers_detected_iqr=df((df['values']>lower_bound) | (df['values']<upper_bound))
+outliers_detected_iqr=df[(df['values']>lower_bound) | (df['values']<upper_bound)]
 print("outliers detected by IQR Method:\n")
 print(outliers_detected_iqr)
+
+plt.figure(figsize=(10,5))
+sns.boxplot(x=df['values'],color='lightblue')
+plt.scatter(outliers_detected_iqr['values'],np.ones(len(outliers_detected_iqr)),color="red",label="IQR detected outliers")
+plt.title("Box plot representing IQR outliers")
+plt.xlabel("Values")
+plt.legend()
+plt.show()
