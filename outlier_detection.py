@@ -20,3 +20,8 @@ df=pd.DataFrame(data,columns=['values'])
 print("The values are given below:\n",df)
 df['zscore']=np.abs(stats.zscore(df['values']))
 print("The zscore of the values is below:\n",df)
+
+plt.figure(figsize=(10,5))
+sns.boxplot(df['values'])
+plt.title("Boxplot Visualization Of Data")
+plt.show()
