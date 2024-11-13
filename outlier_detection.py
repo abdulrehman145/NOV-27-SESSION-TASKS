@@ -74,3 +74,34 @@ plt.title("Outliers detected by using DBSCAN")
 plt.xlabel("Values")
 plt.legend()
 plt.show()
+
+kmeans=KMeans(n_clusters=3).fit(df['scaled_values'])
+df['kmeans labels']=kmeans.labels_
+
+df['kmeans distance']=kmeans.transform(df['scaled_values'].min(axis=1))
+
+threshold_kmeans=np.percentile(df['kmeans distance'],95)
+
+threshold_kmeans = np.percentile(df['kmeans_distance'], 95)
+outliers_kmeans = df[df['kmeans_distance'] > threshold_kmeans]
+print("Outliers detected using K-Means:")
+print(outliers_kmeans)
+
+
+plt.figure(figsize=(10, 6))
+
+plt.scatter(df[df['kmeans_distance'] <= threshold_kmeans]['scaled_value'],
+            np.zeros(len(df[df['kmeans_distance'] <= threshold_kmeans])),
+            c=df[df['kmeans_distance'] <= threshold_kmeans]['kmeans_labels'],
+            cmap='coolwarm', label='Clustered Points', alpha=0.5)
+
+
+plt.scatter(outliers_kmeans['scaled_value'],
+            np.zeros(len(outliers_kmeans)),
+            color='red', label='K-Means Outliers')
+
+plt.title('Outliers Detected by K-Means Method')
+plt.xlabel('Scaled Value')
+plt.legend()
+
+plt.show()
